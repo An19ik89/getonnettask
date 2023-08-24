@@ -36,6 +36,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.2
+  retrofit_generator: ^7.0.8
+  build_runner: ^2.4.6
 
 
 flutter:
