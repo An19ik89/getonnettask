@@ -16,7 +16,6 @@ class _MovieListViewState extends State<MovieListView> {
   final MovieListViewModel _viewModel = instance<MovieListViewModel>();
   _bind() {
     _viewModel.start();
-
   }
 
   @override
@@ -36,24 +35,26 @@ class _MovieListViewState extends State<MovieListView> {
     // return _getContentWidget();
 
     return Scaffold(
-      body: StreamBuilder<FlowState>(
-    stream: _viewModel.outputState,
-      builder: (context, snapshot) {
-        return snapshot.data?.getScreenWidget(context, _getContent(),
-                () {
-              _viewModel.genres();
-            }) ??
-            _getContent();
-      },
-    ),
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          scrollDirection: Axis.vertical,
+          child: StreamBuilder<GenreListResponse>(
+            stream: _viewModel.outputSliderViewObject,
+            builder: (context, snapshot) {
+              if(snapshot.data == null){
+                return Container();
+              }
+              else{
+                return Text(snapshot.data!.name.toString(),style: const TextStyle(color: Colors.amber),);
+              }
+            },
+          ),
+        ),
+      ),
     );
   }
 
-  Widget _getContent(){
-    return StreamBuilder<GenreResponse>(
-        stream: _viewModel.outputSliderViewObject,
-        builder: (context, snapshot) {
-          return Text((snapshot.data?.genreList?.length ?? 0).toString());
-        });
-  }
 }

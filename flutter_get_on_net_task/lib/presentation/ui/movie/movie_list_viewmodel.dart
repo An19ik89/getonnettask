@@ -15,7 +15,7 @@ class  MovieListViewModel extends BaseViewModel implements MovieListViewModelInp
   final StreamController _searchStreamController = StreamController<String>.broadcast();
 
   // stream controllers
-  final StreamController _streamController = StreamController<GenreResponse>();
+  final StreamController _streamController = StreamController<GenreListResponse>();
 
   final MovieListUseCase movieListUseCase;
   final GenresListUseCase genresListUseCase;
@@ -28,7 +28,6 @@ class  MovieListViewModel extends BaseViewModel implements MovieListViewModelInp
 
   var movieListObject = MovieListObject(1, "action");
 
- late GenreResponse response;
 
   @override
   void genres() async{
@@ -41,10 +40,10 @@ class  MovieListViewModel extends BaseViewModel implements MovieListViewModelInp
         }, (data) {
       // right -> success (data)
 
-      inputSliderViewObject.add(data);
 
-      for(int i = 0; i<data.genreList!.length ; i++){
-        print(data.genreList![i].name);
+
+      for(int i = 0; i<data.genreList.length ; i++){
+        inputSliderViewObject.add(data.genreList[i]);
       }
       inputState.add(ContentState());
 
@@ -101,6 +100,6 @@ class  MovieListViewModel extends BaseViewModel implements MovieListViewModelInp
   Sink get inputSliderViewObject => _streamController.sink;
 
   @override
-  Stream<GenreResponse> get outputSliderViewObject => _streamController.stream.map((response) => response);
+  Stream<GenreListResponse> get outputSliderViewObject => _streamController.stream.map((response) => response);
 
 }
