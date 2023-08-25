@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter_get_on_net_task/data/responses/responses.dart';
 import 'package:flutter_get_on_net_task/domain/model/model.dart';
@@ -15,7 +16,7 @@ class  MovieListViewModel extends BaseViewModel implements MovieListViewModelInp
   final StreamController _searchStreamController = StreamController<String>.broadcast();
 
   // stream controllers
-  final StreamController _streamController = StreamController<GenreListResponse>();
+  final StreamController _streamController = StreamController<GenreList>();
 
   final MovieListUseCase movieListUseCase;
   final GenresListUseCase genresListUseCase;
@@ -42,9 +43,13 @@ class  MovieListViewModel extends BaseViewModel implements MovieListViewModelInp
 
 
 
+
+      //log("DATA : ${data.genreList}");
       for(int i = 0; i<data.genreList.length ; i++){
-        inputSliderViewObject.add(data.genreList[i]);
+        inputSliderViewObject.add(GenreList(data.genreList[i].id, data.genreList[i].name));
       }
+
+      //inputSliderViewObject.add(data.genreList);
       inputState.add(ContentState());
 
     });
@@ -56,7 +61,6 @@ class  MovieListViewModel extends BaseViewModel implements MovieListViewModelInp
   }
 
   @override
-  // TODO: implement inputSearch
   Sink get inputSearch => throw UnimplementedError();
 
   @override
@@ -76,17 +80,14 @@ class  MovieListViewModel extends BaseViewModel implements MovieListViewModelInp
   }
 
   @override
-  // TODO: implement outputSearch
   Stream<String> get outputSearch => throw UnimplementedError();
 
   @override
-  void search() {
-    // TODO: implement search
-  }
+  void search() {}
 
   @override
   void start() {
-    // TODO: implement start
+    genres();
     inputState.add(ContentState());
   }
 
@@ -97,9 +98,9 @@ class  MovieListViewModel extends BaseViewModel implements MovieListViewModelInp
     // TODO: implement genres
   }
 
-  Sink get inputSliderViewObject => _streamController.sink;
+  StreamSink get inputSliderViewObject => _streamController.sink;
 
   @override
-  Stream<GenreListResponse> get outputSliderViewObject => _streamController.stream.map((response) => response);
+  Stream<GenreList> get outputSliderViewObject => _streamController.stream.map((response) => response);
 
 }

@@ -33,25 +33,19 @@ class _MovieListViewState extends State<MovieListView> {
   @override
   Widget build(BuildContext context) {
     // return _getContentWidget();
-
     return Scaffold(
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          scrollDirection: Axis.vertical,
-          child: StreamBuilder<GenreListResponse>(
-            stream: _viewModel.outputSliderViewObject,
-            builder: (context, snapshot) {
-              if(snapshot.data == null){
-                return Container();
-              }
-              else{
-                return Text(snapshot.data!.name.toString(),style: const TextStyle(color: Colors.amber),);
-              }
-            },
-          ),
+      body: Center(
+        child: StreamBuilder<GenreList>(
+          stream: _viewModel.outputSliderViewObject,
+          builder: (context, snapshot) {
+            //print("DATA : ${snapshot.data!.name}");
+            if(snapshot.data == null){
+              return Container();
+            }
+            else{
+              return Center(child: Text(snapshot.data!.name.toString(),style: const TextStyle(color: Colors.amber),));
+            }
+          },
         ),
       ),
     );
